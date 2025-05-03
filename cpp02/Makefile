@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/05/02 00:15:28 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/05/04 00:56:36 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,29 +14,48 @@
 # @brief This File is a Makefile for building of Tester Fixed class in ../../cpp02 directory.
 
 # Directories
+PRJ_ROOT = ../../cpp02
+# Default for the build rule (re, fclean, clean)
 OBJ_DIR = objs
 DEP_DIR = .deps
-PRJ_ROOT = ../../cpp02
 
-# Source files
+# Compiler
+CXX = c++
+CF_DEP = -MMD -MP -MF $(@:$(OBJ_DIR)/%.o=$(DEP_DIR)/%.d)
+
+# ALL Targets
+TARGET_EX01 = ex01_app
+TARGET_EX02 = ex02_app
+ALL = $(TARGET_EX01) $(TARGET_EX02)
+
+# ex01
 ifeq ($(MAKECMDGOALS),ex01)
 PRJ_DIR = $(PRJ_ROOT)/ex01
+OBJ_DIR = objs/ex01
+DEP_DIR = .deps/ex01
+CXXFLAGS += -Wall -Wextra -Werror -std=c++11
 SRCS = Fixed.cpp test_ex01.cpp
-NAME = ex01_app
+NAME = $(TARGET_EX01)
 endif
 
+# ex02 : using google tester
 ifeq ($(MAKECMDGOALS),ex02)
 PRJ_DIR = $(PRJ_ROOT)/ex02
-SRCS = AnotherClass.cpp text_ex02.cpp
-NAME = ex02_app
+OBJ_DIR = objs/ex02
+DEP_DIR = .deps/ex02
+CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include/gtest -pthread
+SRCS = Fixed.cpp test_ex02.cpp
+LIBS = -L/usr/lib -lgtest -lgtest_main
+NAME = $(TARGET_EX02)
 endif
 
 #ifeq ($(PRJ_DIR),)
 #$(error "Usage: make ex01 or make ex02")
 #endif
 
+# Selected Target Project Directory
 SRCS_DIR = $(PRJ_DIR)
-INC_DIR = $(PRJ_DIR)
+INC_DIR += $(PRJ_DIR)
 
 # vpath for serching source files in multiple directories
 vpath %.cpp $(SRCS_DIR)
@@ -44,11 +63,6 @@ vpath %.cpp $(SRCS_DIR)
 # Object files and dependency files
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.cpp=.o))
 DEPS = $(addprefix $(DEP_DIR)/, $(SRCS:.cpp=.d))
-
-# Compiler
-CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++11
-CF_DEP = -MMD -MP -MF $(@:$(OBJ_DIR)/%.o=$(DEP_DIR)/%.d)
 
 # Rules for building object files
 $(OBJ_DIR)/%.o: %.cpp
@@ -60,15 +74,15 @@ $(OBJ_DIR)/%.o: %.cpp
 $(DEP_DIR)/%.d: %.c
 	@mkdir -p $(DEP_DIR)
 
-ALL = ex01_app
 # Default target
 all:
 	make ex01
+	make ex02
 .PHONY: all
 
 # Build Target
 $(NAME): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+	$(CXX) $(CXXFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
 # Rule for removing object & dependency files
 clean:
@@ -84,14 +98,16 @@ fclean: clean
 re: fclean all
 .PHONY: re
 
-ex01: ex01_app
+# Rule for ex01 target
+ex01: $(NAME)
 	@echo "Building ex01 application"
-	$(call ASCII_ART,${NAME})
+	$(call ASCII_ART,$(NAME))
 .PHONY: ex01
 
-ex02: ex02_app
+# Rule for ex02 target
+ex02: $(NAME)
 	@echo "Building ex02 application"
-	$(call ASCII_ART,${NAME})
+	$(call ASCII_ART,$(NAME))
 .PHONY: ex02
 
 # ASCII Art : Display Tips the way to use.
