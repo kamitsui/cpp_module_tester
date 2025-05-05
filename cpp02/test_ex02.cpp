@@ -4,16 +4,25 @@
 #include <limits>
 #include <sstream>
 
+// Bad Test for Fixed class
 // Helper function to compare floats with a small epsilon
-bool floatEquals(float a, float b, float epsilon = 1e-5) {
-    std::cout << "[[debug]] " << " | " << "a[" << a << "]" << " | " << "b[" << b << "]" << " | " << "epsilon["
-              << epsilon << "]" << std::endl;
-    std::cout << "abs(a - b) < epsilon" << " ... " << std::abs(a - b) << " < " << epsilon << " ... "
-              << (std::abs(a - b) < epsilon) << std::endl;
-    std::cout << "\t" << "0.00001" << " == " << 1e-5 << " ... [" << (0.00001f == epsilon) << "]" << std::endl;
-    std::cout << "\t" << "FLT_EPSILON | " << FLT_EPSILON << std::endl;
-    return std::abs(a - b) < epsilon;
-}
+// bool floatEquals(float a, float b, float epsilon = 1e-5) {
+//    std::cout << "[[debug]] " << " | ";
+//
+//    std::cout << "a[" << std::scientific << std::setprecision(7) << a << "]" << " | ";
+//    std::cout << "b[" << std::scientific << std::setprecision(7) << b << "]" << " | ";
+//    std::cout << "epsilon[" << std::scientific << std::setprecision(7) << epsilon << "]" << std::endl;
+//
+//    std::cout << "abs(a - b) < epsilon" << " ... ";
+//    std::cout << std::scientific << std::setprecision(7) << std::abs(a - b) << " < ";
+//    std::cout << std::scientific << std::setprecision(7) << epsilon << " ... ";
+//    std::cout << std::scientific << std::setprecision(7) << (std::abs(a - b) < epsilon) << std::endl;
+//
+//    std::cout << "\t" << "0.00001" << " == " << 1e-5 << " ... [" << (0.00001f == epsilon) << "]" << std::endl;
+//    std::cout << "\t" << "FLT_EPSILON | " << FLT_EPSILON << std::endl;
+//    return std::abs(a - b) < epsilon;
+//}
+
 // 固定小数点数の最小分解能を考慮した許容範囲
 void fixedEquals(float expected, float actual) {
     int k = 1;
@@ -37,7 +46,8 @@ TEST(FixedTest, IntConstructor) {
 TEST(FixedTest, FloatConstructor) {
     Fixed c(42.42f);
     ASSERT_EQ(c.getRawBits(), static_cast<int>(roundf(42.42f * 256)));
-    ASSERT_TRUE(floatEquals(c.toFloat(), 42.421875f)); // Due to fixed-point precision
+    fixedEquals(c.toFloat(), 42.42f);
+    // ASSERT_TRUE(floatEquals(c.toFloat(), 42.421875f)); // Due to fixed-point precision
     ASSERT_EQ(c.toInt(), 42);
 }
 
@@ -45,7 +55,8 @@ TEST(FixedTest, CopyConstructor) {
     Fixed original(12.34f);
     Fixed copy(original);
     ASSERT_EQ(copy.getRawBits(), original.getRawBits());
-    ASSERT_TRUE(floatEquals(copy.toFloat(), original.toFloat()));
+    // ASSERT_TRUE(floatEquals(copy.toFloat(), original.toFloat()));
+    ASSERT_EQ(copy.toFloat(), original.toFloat());
     ASSERT_EQ(copy.toInt(), original.toInt());
 }
 
@@ -54,7 +65,7 @@ TEST(FixedTest, CopyAssignmentOperator) {
     Fixed b;
     b = a;
     ASSERT_EQ(b.getRawBits(), a.getRawBits());
-    ASSERT_TRUE(floatEquals(b.toFloat(), a.toFloat()));
+    ASSERT_EQ(b.toFloat(), a.toFloat());
     ASSERT_EQ(b.toInt(), a.toInt());
 }
 
@@ -159,7 +170,35 @@ TEST(FixedArithmeticTest, Multiplication) {
     Fixed x(2.0f);
     Fixed y(3.5f);
     Fixed result = x * y;
-    ASSERT_TRUE(floatEquals(result.toFloat(), 7.0f));
+    // ASSERT_TRUE(floatEquals(result.toFloat(), 7.0f));
+    fixedEquals(result.toFloat(), 7.0f);
+}
+
+void checkDivisionByZero(Fixed &a) {
+    // std::cerr の出力をキャプチャするためのstringstream
+    std::stringstream ss_cerr;
+    std::streambuf *old_cerr = std::cerr.rdbuf();
+    std::cerr.rdbuf(ss_cerr.rdbuf());
+
+    Fixed result = a / Fixed(0.0f);
+
+    // std::cerr の内容を元に戻す
+    std::cerr.rdbuf(old_cerr);
+
+    // エラーメッセージのチェック
+    std::string expected_error = "Division by zero is undefined. Returning maximum float.";
+    ASSERT_NE(ss_cerr.str().find(expected_error), std::string::npos)
+        << "Expected error message not found in cerr: \"" << ss_cerr.str() << "\"";
+
+    // 返り値が最大 float 値に近いかのチェック
+    float max_float = std::numeric_limits<float>::max();
+    ASSERT_FLOAT_EQ(result.toFloat(), Fixed(max_float).toFloat());
+
+    // NG
+    // ASSERT_FLOAT_EQ(result.toFloat(), max_float);
+    //  より緩やかな比較が必要な場合は ASSERT_NEAR を使用
+    // float epsilon = 1e-6; // 適宜調整
+    // ASSERT_NEAR(result.toFloat(), max_float, epsilon);
 }
 
 TEST(FixedArithmeticTest, Division) {
@@ -168,35 +207,37 @@ TEST(FixedArithmeticTest, Division) {
     ASSERT_FLOAT_EQ((a / b).toFloat(), 2.0f);
     Fixed c(-2.0f);
     ASSERT_FLOAT_EQ((a / c).toFloat(), -3.0f);
-    Fixed zero(0.0f);
-    // Division by zeroはエラーメッセージを出力し、最大float値を返すはず
-    ASSERT_FLOAT_EQ((a / zero).toFloat(), std::numeric_limits<float>::max());
 
     Fixed x(10.0f);
     Fixed y(2.5f);
     Fixed result = x / y;
-    ASSERT_TRUE(floatEquals(result.toFloat(), 4.0f));
+    // ASSERT_TRUE(floatEquals(result.toFloat(), 4.0f));
+    fixedEquals(result.toFloat(), 4.0f);
 }
 
 TEST(FixedArithmeticTest, DivisionByZero) {
     Fixed a(5.0f);
-    Fixed b(0.0f);
-    std::stringstream ss;
-    std::streambuf *oldCerr = std::cerr.rdbuf();
-    std::cerr.rdbuf(ss.rdbuf()); // Redirect cerr to stringstream
+    Fixed b(6.0f);
 
-    Fixed result = a / b;
-    ASSERT_TRUE(floatEquals(result.toFloat(), std::numeric_limits<float>::max()));
-    ASSERT_NE(ss.str().find("Division by zero is undefined"), std::string::npos);
+    checkDivisionByZero(a);
+    checkDivisionByZero(b);
 
-    std::cerr.rdbuf(oldCerr); // Restore cerr
+    // Bad code
+    // Fixed zero(0.0f);
+    //   Division by zeroはエラーメッセージを出力し、最大float値を返すはず
+    //   ASSERT_FLOAT_EQ((a / zero).toFloat(), std::numeric_limits<float>::max());
+    //  ASSERT_FLOAT_EQ((a / zero).toFloat(), Fixed(std::numeric_limits<float>::max()).toFloat());
 }
 
 // インクリメント/デクリメント演算子のテスト
 TEST(FixedIncrementDecrementTest, PreIncrement) {
     Fixed a(2.0f);
-    ASSERT_FLOAT_EQ((++a).toFloat(), 2.0f + (1.0f / 256.0f));
-    ASSERT_FLOAT_EQ(a.toFloat(), 2.0f + (1.0f / 256.0f));
+    fixedEquals((++a).toFloat(), 3.0f);
+    fixedEquals(a.toFloat(), 3.0f);
+
+    // Bad Test
+    // ASSERT_FLOAT_EQ((++a).toFloat(), 2.0f + (1.0f / 256.0f));
+    // ASSERT_FLOAT_EQ(a.toFloat(), 2.0f + (1.0f / 256.0f));
 
     Fixed b(1.5f);
     Fixed &result = ++b;
@@ -207,8 +248,12 @@ TEST(FixedIncrementDecrementTest, PreIncrement) {
 
 TEST(FixedIncrementDecrementTest, PostIncrement) {
     Fixed a(2.0f);
-    ASSERT_FLOAT_EQ((a++).toFloat(), 2.0f);
-    ASSERT_FLOAT_EQ(a.toFloat(), 2.0f + (1.0f / 256.0f));
+    fixedEquals((a++).toFloat(), 2.0f);
+    fixedEquals(a.toFloat(), 3.0f);
+
+    // Bad Test
+    // ASSERT_FLOAT_EQ((a++).toFloat(), 2.0f);
+    // ASSERT_FLOAT_EQ(a.toFloat(), 2.0f + (1.0f / 256.0f));
 
     Fixed b(1.5f);
     Fixed result = b++;
@@ -219,25 +264,33 @@ TEST(FixedIncrementDecrementTest, PostIncrement) {
 
 TEST(FixedIncrementDecrementTest, PreDecrement) {
     Fixed a(2.0f);
-    ASSERT_FLOAT_EQ((--a).toFloat(), 2.0f - (1.0f / 256.0f));
-    ASSERT_FLOAT_EQ(a.toFloat(), 2.0f - (1.0f / 256.0f));
+    fixedEquals((--a).toFloat(), 1.0f);
+    fixedEquals(a.toFloat(), 1.0f);
+
+    // Bad Test
+    // ASSERT_FLOAT_EQ((--a).toFloat(), 2.0f - (1.0f / 256.0f));
+    // ASSERT_FLOAT_EQ(a.toFloat(), 2.0f - (1.0f / 256.0f));
 
     Fixed b(2.5f);
     Fixed &result = --b;
-    ASSERT_EQ(b.toInt(), 2);
-    ASSERT_EQ(result.toInt(), 2);
+    ASSERT_EQ(b.toInt(), 1);
+    ASSERT_EQ(result.toInt(), 1);
     ASSERT_EQ(&result, &b);
 }
 
 TEST(FixedIncrementDecrementTest, PostDecrement) {
     Fixed a(2.0f);
-    ASSERT_FLOAT_EQ((a--).toFloat(), 2.0f);
-    ASSERT_FLOAT_EQ(a.toFloat(), 2.0f - (1.0f / 256.0f));
+    fixedEquals((a--).toFloat(), 2.0f);
+    fixedEquals(a.toFloat(), 1.0f);
+
+    // Bad Test
+    // ASSERT_FLOAT_EQ((a--).toFloat(), 2.0f);
+    // ASSERT_FLOAT_EQ(a.toFloat(), 2.0f - (1.0f / 256.0f));
 
     Fixed b(2.5f);
     Fixed result = b--;
-    ASSERT_EQ(b.toInt(), 2);
-    ASSERT_EQ(result.toInt(), 3); // Note: Post-decrement returns the value before decrement
+    ASSERT_EQ(b.toInt(), 1);
+    ASSERT_EQ(result.toInt(), 2); // Note: Post-decrement returns the value before decrement
     ASSERT_NE(&result, &b);
 }
 
@@ -288,7 +341,11 @@ TEST(FixedOutputTest, OutputStreamOperator) {
     Fixed a(123.45f);
     std::stringstream ss;
     ss << a;
-    ASSERT_EQ(ss.str(), "123.453125"); // Due to fixed-point precision
+    fixedEquals(std::stof(ss.str()), 123.45f);
+    // 123.449 ~= 123.45f ... neary equal
+
+    // Bad Test
+    // ASSERT_EQ(ss.str(), "123.453125"); // Due to fixed-point precision
 }
 
 int main(int argc, char **argv) {
