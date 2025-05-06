@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/05/04 00:56:36 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/05/06 14:03:59 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,8 +44,10 @@ PRJ_DIR = $(PRJ_ROOT)/ex02
 OBJ_DIR = objs/ex02
 DEP_DIR = .deps/ex02
 CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include/gtest -pthread
+#CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I$(HOME)/goinfre/.brew/include/gtest -pthread
 SRCS = Fixed.cpp test_ex02.cpp
 LIBS = -L/usr/lib -lgtest -lgtest_main
+#LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
 NAME = $(TARGET_EX02)
 endif
 
