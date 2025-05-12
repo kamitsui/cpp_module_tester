@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/05/12 13:10:09 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/05/12 14:19:46 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ CF_DEP = -MMD -MP -MF $(@:$(OBJ_DIR)/%.o=$(DEP_DIR)/%.d)
 TARGET_EX00 = ex00_app
 TARGET_EX01 = ex01_app
 TARGET_EX02 = ex02_app
-ALL = $(TARGET_EX00) $(TARGET_EX01)# $(TARGET_EX02)
+ALL = $(TARGET_EX00) $(TARGET_EX01) $(TARGET_EX02)
 
 # Definitions for building ex00 test program.
 ifeq ($(MAKECMDGOALS),ex00)
@@ -64,7 +64,7 @@ ifeq ($(MAKECMDGOALS),ex02)
 PRJ_DIR = $(PRJ_ROOT)/ex02
 OBJ_DIR = objs/ex02
 DEP_DIR = .deps/ex02
-SRCS = ClagTrap.cpp ScavTrap.cpp FragTrap.cpp test_ex02.cpp
+SRCS = ClapTrap.cpp ScavTrap.cpp FragTrap.cpp test_ex02.cpp
 # My environ (Ubuntu22.04)
 CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
 LIBS = -L/usr/lib -lgtest -lgtest_main
@@ -99,7 +99,7 @@ $(DEP_DIR)/%.d: %.c
 all:
 	make ex00
 	make ex01
-#	make ex02
+	make ex02
 .PHONY: all
 
 # Build Target

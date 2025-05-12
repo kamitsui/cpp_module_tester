@@ -6,7 +6,7 @@
 /*   By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:00:27 by kamitsui          #+#    #+#             */
-/*   Updated: 2025/05/09 18:45:04 by kamitsui         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:20:16 by kamitsui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ TEST(ScavTrapTest, BeRepaired) {
     ASSERT_EQ(unit.getEnergyPoints(), 49); // Energy points should decrease
 }
 
+// ガードモード
 TEST(ScavTrapTest, GuardGate) {
     ScavTrap unit("GuardianScav");
     std::string expectedOutput = "ScavTrap GuardianScav has entered Gate keeper mode.\n";
