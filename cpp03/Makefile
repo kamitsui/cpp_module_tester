@@ -6,12 +6,12 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/05/09 01:43:01 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/05/12 13:10:09 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# @file cpp02/Makefile
-# @brief This File is a Makefile for building of Tester Fixed class in ../../cpp02 directory.
+# @file cpp03/Makefile
+# @brief This File is a Makefile for building of Tester Fixed class in ../../cpp03 directory.
 
 # Directories
 PRJ_ROOT = ../../cpp03
@@ -27,9 +27,9 @@ CF_DEP = -MMD -MP -MF $(@:$(OBJ_DIR)/%.o=$(DEP_DIR)/%.d)
 TARGET_EX00 = ex00_app
 TARGET_EX01 = ex01_app
 TARGET_EX02 = ex02_app
-ALL = $(TARGET_EX00)# $(TARGET_EX01) $(TARGET_EX02)
+ALL = $(TARGET_EX00) $(TARGET_EX01)# $(TARGET_EX02)
 
-# ex00 : using google tester
+# Definitions for building ex00 test program.
 ifeq ($(MAKECMDGOALS),ex00)
 PRJ_DIR = $(PRJ_ROOT)/ex00
 OBJ_DIR = objs/ex00
@@ -44,32 +44,35 @@ LIBS = -L/usr/lib -lgtest -lgtest_main
 NAME = $(TARGET_EX00)
 endif
 
-# ex01
+# Definitions for building ex01 test program.
 ifeq ($(MAKECMDGOALS),ex01)
 PRJ_DIR = $(PRJ_ROOT)/ex01
 OBJ_DIR = objs/ex01
 DEP_DIR = .deps/ex01
-CXXFLAGS += -Wall -Wextra -Werror -std=c++11
-SRCS = Fixed.cpp test_ex01.cpp
+SRCS = ClapTrap.cpp ScavTrap.cpp test_ex01.cpp
+# My environ (Ubuntu22.04)
+CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
+LIBS = -L/usr/lib -lgtest -lgtest_main
+# 42 tokyo campas PC
+#CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
+#LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
 NAME = $(TARGET_EX01)
 endif
 
-# ex02 : using google tester
+# Definitions for building ex02 test program.
 ifeq ($(MAKECMDGOALS),ex02)
 PRJ_DIR = $(PRJ_ROOT)/ex02
 OBJ_DIR = objs/ex02
 DEP_DIR = .deps/ex02
-#CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
-CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
-SRCS = Fixed.cpp test_ex02.cpp
-#LIBS = -L/usr/lib -lgtest -lgtest_main
-LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
+SRCS = ClagTrap.cpp ScavTrap.cpp FragTrap.cpp test_ex02.cpp
+# My environ (Ubuntu22.04)
+CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
+LIBS = -L/usr/lib -lgtest -lgtest_main
+# 42 tokyo campas PC
+#CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
+#LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
 NAME = $(TARGET_EX02)
 endif
-
-#ifeq ($(PRJ_DIR),)
-#$(error "Usage: make ex01 or make ex02")
-#endif
 
 # Selected Target Project Directory
 SRCS_DIR = $(PRJ_DIR)
@@ -95,7 +98,7 @@ $(DEP_DIR)/%.d: %.c
 # Default target
 all:
 	make ex00
-#	make ex01
+	make ex01
 #	make ex02
 .PHONY: all
 
