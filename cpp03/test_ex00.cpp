@@ -6,7 +6,7 @@
 /*   By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:57:49 by kamitsui          #+#    #+#             */
-/*   Updated: 2025/05/09 02:18:05 by kamitsui         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:25:42 by kamitsui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ std::string getStdout(std::function<void()> func) {
 TEST(ClapTrapTest, DefaultConstructor) {
     ClapTrap unit;
     ASSERT_EQ(unit.getName(), "Default");
-    ASSERT_EQ(unit.getHitPoints(), 10);
-    ASSERT_EQ(unit.getEnergyPoints(), 10);
-    ASSERT_EQ(unit.getAttackDamage(), 0);
+    ASSERT_EQ(unit.getHitPoints(), 10u);
+    ASSERT_EQ(unit.getEnergyPoints(), 10u);
+    ASSERT_EQ(unit.getAttackDamage(), 0u);
 
     //  NG TEST : 補助テスト
     //  コンストラクタの出力メッセージで間接的に確認
@@ -42,18 +42,18 @@ TEST(ClapTrapTest, DefaultConstructor) {
 TEST(ClapTrapTest, StringConstructor) {
     ClapTrap unit("TestUnit");
     ASSERT_EQ(unit.getName(), "TestUnit");
-    ASSERT_EQ(unit.getHitPoints(), 10);
-    ASSERT_EQ(unit.getEnergyPoints(), 10);
-    ASSERT_EQ(unit.getAttackDamage(), 0);
+    ASSERT_EQ(unit.getHitPoints(), 10u);
+    ASSERT_EQ(unit.getEnergyPoints(), 10u);
+    ASSERT_EQ(unit.getAttackDamage(), 0u);
 }
 
 TEST(ClapTrapTest, CopyConstructor) {
     ClapTrap original("CopyUnit");
     ClapTrap unit(original);
     ASSERT_EQ(unit.getName(), "CopyUnit");
-    ASSERT_EQ(unit.getHitPoints(), 10);
-    ASSERT_EQ(unit.getEnergyPoints(), 10);
-    ASSERT_EQ(unit.getAttackDamage(), 0);
+    ASSERT_EQ(unit.getHitPoints(), 10u);
+    ASSERT_EQ(unit.getEnergyPoints(), 10u);
+    ASSERT_EQ(unit.getAttackDamage(), 0u);
 }
 
 TEST(ClapTrapTest, CopyAssignmentOperator) {
@@ -61,9 +61,9 @@ TEST(ClapTrapTest, CopyAssignmentOperator) {
     ClapTrap assigned("AssignedUnit");
     assigned = original; // コピー代入演算子の呼び出し
     ASSERT_EQ(assigned.getName(), "OriginalUnit");
-    ASSERT_EQ(assigned.getHitPoints(), 10);
-    ASSERT_EQ(assigned.getEnergyPoints(), 10);
-    ASSERT_EQ(assigned.getAttackDamage(), 0);
+    ASSERT_EQ(assigned.getHitPoints(), 10u);
+    ASSERT_EQ(assigned.getEnergyPoints(), 10u);
+    ASSERT_EQ(assigned.getAttackDamage(), 0u);
 }
 
 TEST(ClapTrapTest, Attack) {

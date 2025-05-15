@@ -6,7 +6,7 @@
 /*   By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:00:27 by kamitsui          #+#    #+#             */
-/*   Updated: 2025/05/12 16:20:16 by kamitsui         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:31:51 by kamitsui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ std::string getStdout(std::function<void()> func) {
 TEST(ScavTrapTest, DefaultConstructor) {
     ScavTrap unit;
     ASSERT_EQ(unit.getName(), "DefaultScav");
-    ASSERT_EQ(unit.getHitPoints(), 100);
-    ASSERT_EQ(unit.getEnergyPoints(), 50);
-    ASSERT_EQ(unit.getAttackDamage(), 20);
+    ASSERT_EQ(unit.getHitPoints(), 100u);
+    ASSERT_EQ(unit.getEnergyPoints(), 50u);
+    ASSERT_EQ(unit.getAttackDamage(), 20u);
 }
 
 // 文字列パラメーター付きコンストラクター
 TEST(ScavTrapTest, StringConstructor) {
     ScavTrap unit("TestScav");
     ASSERT_EQ(unit.getName(), "TestScav");
-    ASSERT_EQ(unit.getHitPoints(), 100);
-    ASSERT_EQ(unit.getEnergyPoints(), 50);
-    ASSERT_EQ(unit.getAttackDamage(), 20);
+    ASSERT_EQ(unit.getHitPoints(), 100u);
+    ASSERT_EQ(unit.getEnergyPoints(), 50u);
+    ASSERT_EQ(unit.getAttackDamage(), 20u);
 }
 
 // コピーコンストラクター
@@ -56,9 +56,9 @@ TEST(ScavTrapTest, CopyConstructor) {
     ScavTrap copy(original);
 
     ASSERT_EQ(copy.getName(), "OriginalScav");
-    ASSERT_EQ(copy.getHitPoints(), 100);
-    ASSERT_EQ(copy.getEnergyPoints(), 50);
-    ASSERT_EQ(copy.getAttackDamage(), 20);
+    ASSERT_EQ(copy.getHitPoints(), 100u);
+    ASSERT_EQ(copy.getEnergyPoints(), 50u);
+    ASSERT_EQ(copy.getAttackDamage(), 20u);
 
     // Nothing Setter method
     // original.setName("ModifiedOriginalScav");
@@ -75,9 +75,9 @@ TEST(ScavTrapTest, CopyAssignmentOperator) {
     assigned = original;
 
     ASSERT_EQ(assigned.getName(), "OriginalScav");
-    ASSERT_EQ(assigned.getHitPoints(), 100);
-    ASSERT_EQ(assigned.getEnergyPoints(), 50);
-    ASSERT_EQ(assigned.getAttackDamage(), 20);
+    ASSERT_EQ(assigned.getHitPoints(), 100u);
+    ASSERT_EQ(assigned.getEnergyPoints(), 50u);
+    ASSERT_EQ(assigned.getAttackDamage(), 20u);
 }
 
 // Attack メソッド
@@ -90,7 +90,7 @@ TEST(ScavTrapTest, Attack) {
     ASSERT_EQ(getStdout([&]() { attacker.attack(target); }), expectedOutput);
 
     // EnergyPoints の残量確認
-    ASSERT_EQ(attacker.getEnergyPoints(), 49); // Energy points should decrease
+    ASSERT_EQ(attacker.getEnergyPoints(), 49u); // Energy points should decrease
 }
 
 // ダメージを受ける
@@ -102,13 +102,13 @@ TEST(ScavTrapTest, TakeDamage) {
     std::string expectedOutput =
         "ClapTrap VictimScav takes 30 points of damage!\nClapTrap VictimScav has 70 hit points remaining.\n";
     ASSERT_EQ(getStdout([&]() { unit.takeDamage(damageAmount); }), expectedOutput);
-    ASSERT_EQ(unit.getHitPoints(), 70);
+    ASSERT_EQ(unit.getHitPoints(), 70u);
 
     // hitPoint 70 < 100 (lethalDamage)
     unsigned int lethalDamage = 100;
     std::string expectedOutput2 = "ClapTrap VictimScav takes 100 points of damage!\nClapTrap VictimScav has died!\n";
     ASSERT_EQ(getStdout([&]() { unit.takeDamage(lethalDamage); }), expectedOutput2);
-    ASSERT_EQ(unit.getHitPoints(), 0); // remaining 0 : already out.
+    ASSERT_EQ(unit.getHitPoints(), 0u); // remaining 0 : already out.
 }
 
 // 自己修復
@@ -119,8 +119,8 @@ TEST(ScavTrapTest, BeRepaired) {
     std::string expectedOutput = "ClapTrap HealerScav repairs itself, regaining 20 hit points!\nClapTrap HealerScav "
                                  "now has 70 hit points and 49 energy points.\n";
     ASSERT_EQ(getStdout([&]() { unit.beRepaired(repairAmount); }), expectedOutput);
-    ASSERT_EQ(unit.getHitPoints(), 70);
-    ASSERT_EQ(unit.getEnergyPoints(), 49); // Energy points should decrease
+    ASSERT_EQ(unit.getHitPoints(), 70u);
+    ASSERT_EQ(unit.getEnergyPoints(), 49u); // Energy points should decrease
 }
 
 // ガードモード

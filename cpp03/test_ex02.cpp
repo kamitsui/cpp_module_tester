@@ -6,7 +6,7 @@
 /*   By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:13:49 by kamitsui          #+#    #+#             */
-/*   Updated: 2025/05/12 16:35:02 by kamitsui         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:35:03 by kamitsui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ std::string getStdout(std::function<void()> func) {
 TEST(FragTrapTest, DefaultConstructor) {
     FragTrap unit;
     ASSERT_EQ(unit.getName(), "DefaultFrag");
-    ASSERT_EQ(unit.getHitPoints(), 100);
-    ASSERT_EQ(unit.getEnergyPoints(), 100);
-    ASSERT_EQ(unit.getAttackDamage(), 30);
+    ASSERT_EQ(unit.getHitPoints(), 100u);
+    ASSERT_EQ(unit.getEnergyPoints(), 100u);
+    ASSERT_EQ(unit.getAttackDamage(), 30u);
     // std::string expectedOutput = "ClapTrap Default constructor called\nFragTrap Default constructor called\n";
     // ASSERT_EQ(getStdout([&]() { FragTrap temp_unit; }), expectedOutput);
 }
@@ -40,9 +40,9 @@ TEST(FragTrapTest, DefaultConstructor) {
 TEST(FragTrapTest, StringConstructor) {
     FragTrap unit("TestFrag");
     ASSERT_EQ(unit.getName(), "TestFrag");
-    ASSERT_EQ(unit.getHitPoints(), 100);
-    ASSERT_EQ(unit.getEnergyPoints(), 100);
-    ASSERT_EQ(unit.getAttackDamage(), 30);
+    ASSERT_EQ(unit.getHitPoints(), 100u);
+    ASSERT_EQ(unit.getEnergyPoints(), 100u);
+    ASSERT_EQ(unit.getAttackDamage(), 30u);
     // std::string expectedOutput =
     //     "ClapTrap String constructor called for TestFrag\nFragTrap String constructor called for TestFrag\n";
     // ASSERT_EQ(getStdout([&]() { FragTrap temp_unit("TestFrag"); }), expectedOutput);
@@ -58,16 +58,16 @@ TEST(FragTrapTest, CopyConstructor) {
     FragTrap copy(original);
 
     ASSERT_EQ(copy.getName(), "OriginalFrag");
-    ASSERT_EQ(copy.getHitPoints(), 100);
-    ASSERT_EQ(copy.getEnergyPoints(), 100);
-    ASSERT_EQ(copy.getAttackDamage(), 30);
+    ASSERT_EQ(copy.getHitPoints(), 100u);
+    ASSERT_EQ(copy.getEnergyPoints(), 100u);
+    ASSERT_EQ(copy.getAttackDamage(), 30u);
 
     FragTrap copy2 = original;
 
     ASSERT_EQ(copy2.getName(), "OriginalFrag");
-    ASSERT_EQ(copy2.getHitPoints(), 100);
-    ASSERT_EQ(copy2.getEnergyPoints(), 100);
-    ASSERT_EQ(copy2.getAttackDamage(), 30);
+    ASSERT_EQ(copy2.getHitPoints(), 100u);
+    ASSERT_EQ(copy2.getEnergyPoints(), 100u);
+    ASSERT_EQ(copy2.getAttackDamage(), 30u);
 
     // original.setName("ModifiedOriginalFrag");
     // original.setHitPoints(95);
@@ -95,9 +95,9 @@ TEST(FragTrapTest, CopyAssignmentOperator) {
     assigned = original;
 
     ASSERT_EQ(assigned.getName(), "OriginalFrag");
-    ASSERT_EQ(assigned.getHitPoints(), 100);
-    ASSERT_EQ(assigned.getEnergyPoints(), 100);
-    ASSERT_EQ(assigned.getAttackDamage(), 30);
+    ASSERT_EQ(assigned.getHitPoints(), 100u);
+    ASSERT_EQ(assigned.getEnergyPoints(), 100u);
+    ASSERT_EQ(assigned.getAttackDamage(), 30u);
 
     // original.setName("ModifiedOriginalFrag");
     // original.setHitPoints(95);
@@ -127,7 +127,7 @@ TEST(FragTrapTest, Attack) {
     ASSERT_EQ(getStdout([&]() { attacker.attack(target); }), expectedOutput);
 
     // Energy Points の残量確認
-    ASSERT_EQ(attacker.getEnergyPoints(), 99); // Energy points should decrease
+    ASSERT_EQ(attacker.getEnergyPoints(), 99u); // Energy points should decrease
 }
 
 // ダメージを受ける
@@ -139,13 +139,13 @@ TEST(FragTrapTest, TakeDamage) {
     std::string expectedOutput =
         "ClapTrap VictimFrag takes 40 points of damage!\nClapTrap VictimFrag has 60 hit points remaining.\n";
     ASSERT_EQ(getStdout([&]() { unit.takeDamage(damageAmount); }), expectedOutput);
-    ASSERT_EQ(unit.getHitPoints(), 60);
+    ASSERT_EQ(unit.getHitPoints(), 60u);
 
     // hitPoint 60 < 110 (lethalDamage)
     unsigned int lethalDamage = 110;
     std::string expectedOutput2 = "ClapTrap VictimFrag takes 110 points of damage!\nClapTrap VictimFrag has died!\n";
     ASSERT_EQ(getStdout([&]() { unit.takeDamage(lethalDamage); }), expectedOutput2);
-    ASSERT_EQ(unit.getHitPoints(), 0);
+    ASSERT_EQ(unit.getHitPoints(), 0u);
 }
 
 // 自己修復
@@ -158,10 +158,10 @@ TEST(FragTrapTest, BeRepaired) {
     std::string expectedOutput = "ClapTrap HealerFrag repairs itself, regaining 30 hit points!\nClapTrap HealerFrag "
                                  "now has 70 hit points and 99 energy points.\n";
     ASSERT_EQ(getStdout([&]() { unit.beRepaired(repairAmount); }), expectedOutput);
-    ASSERT_EQ(unit.getHitPoints(), 70);
+    ASSERT_EQ(unit.getHitPoints(), 70u);
 
     // EnergyPoints の残量確認
-    ASSERT_EQ(unit.getEnergyPoints(), 99); // Energy points should decrease
+    ASSERT_EQ(unit.getEnergyPoints(), 99u); // Energy points should decrease
 }
 
 // ハイタッチ要求のメッセージ出力

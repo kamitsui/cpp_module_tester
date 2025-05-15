@@ -6,7 +6,7 @@
 /*   By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 22:33:58 by kamitsui          #+#    #+#             */
-/*   Updated: 2025/05/15 10:26:55 by kamitsui         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:33:05 by kamitsui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ std::string getStdout(std::function<void()> func) {
 TEST(DiamondTrapTest, DefaultConstructor) {
     DiamondTrap unit;
     ASSERT_EQ(unit.getName(), "Default");
-    ASSERT_EQ(unit.getHitPoints(), 100);   // Inherited from FragTrap
-    ASSERT_EQ(unit.getEnergyPoints(), 50); // Inherited from ScavTrap
-    ASSERT_EQ(unit.getAttackDamage(), 30); // Inherited from FragTrap
+    ASSERT_EQ(unit.getHitPoints(), 100u);   // Inherited from FragTrap
+    ASSERT_EQ(unit.getEnergyPoints(), 50u); // Inherited from ScavTrap
+    ASSERT_EQ(unit.getAttackDamage(), 30u); // Inherited from FragTrap
     // std::string expectedOutput = "ClapTrap Default constructor called\nFragTrap Default constructor called\nScavTrap
     // "
     //                              "Default constructor called\nDiamondTrap Default constructor called\n";
@@ -42,9 +42,9 @@ TEST(DiamondTrapTest, DefaultConstructor) {
 TEST(DiamondTrapTest, StringConstructor) {
     DiamondTrap unit("TestDiamond");
     ASSERT_EQ(unit.getName(), "TestDiamond");
-    ASSERT_EQ(unit.getHitPoints(), 100);
-    ASSERT_EQ(unit.getEnergyPoints(), 50);
-    ASSERT_EQ(unit.getAttackDamage(), 30);
+    ASSERT_EQ(unit.getHitPoints(), 100u);
+    ASSERT_EQ(unit.getEnergyPoints(), 50u);
+    ASSERT_EQ(unit.getAttackDamage(), 30u);
 
     // std::string expectedOutput = "ClapTrap String constructor called for TestDiamond_clap_name\nFragTrap String "
     //                              "constructor called for TestDiamond\nScavTrap String constructor called for "
@@ -63,9 +63,9 @@ TEST(DiamondTrapTest, CopyConstructor) {
     DiamondTrap copy(original);
 
     ASSERT_EQ(copy.getName(), "OriginalDiamond");
-    ASSERT_EQ(copy.getHitPoints(), 100);
-    ASSERT_EQ(copy.getEnergyPoints(), 50);
-    ASSERT_EQ(copy.getAttackDamage(), 30);
+    ASSERT_EQ(copy.getHitPoints(), 100u);
+    ASSERT_EQ(copy.getEnergyPoints(), 50u);
+    ASSERT_EQ(copy.getAttackDamage(), 30u);
 
     // original.setName("ModifiedOriginalDiamond");
     // original.setHitPoints(95);
@@ -96,9 +96,9 @@ TEST(DiamondTrapTest, CopyAssignmentOperator) {
     assigned = original;
 
     ASSERT_EQ(assigned.getName(), "OriginalDiamond");
-    ASSERT_EQ(assigned.getHitPoints(), 100);
-    ASSERT_EQ(assigned.getEnergyPoints(), 50);
-    ASSERT_EQ(assigned.getAttackDamage(), 30);
+    ASSERT_EQ(assigned.getHitPoints(), 100u);
+    ASSERT_EQ(assigned.getEnergyPoints(), 50u);
+    ASSERT_EQ(assigned.getAttackDamage(), 30u);
 
     // original.setName("ModifiedOriginalDiamond");
     // original.setHitPoints(95);
@@ -132,7 +132,7 @@ TEST(DiamondTrapTest, Attack) {
     //"ScavTrap AttackerDiamond attacks Target, causing 20 points of damage!\n";
 
     ASSERT_EQ(getStdout([&]() { unit.attack(target); }), expectedOutput);
-    ASSERT_EQ(unit.getEnergyPoints(), 49); // Energy points should decrease (ScavTrap)
+    ASSERT_EQ(unit.getEnergyPoints(), 49u); // Energy points should decrease (ScavTrap)
 }
 
 // ダメージを受ける
@@ -150,7 +150,7 @@ TEST(DiamondTrapTest, TakeDamage) {
     //    "ClapTrap VictimDiamond takes 30 points of damage!\nClapTrap VictimDiamond has 70 hit points remaining.\n";
 
     ASSERT_EQ(getStdout([&]() { unit.takeDamage(damageAmount); }), expectedOutput);
-    ASSERT_EQ(unit.getHitPoints(), 70);
+    ASSERT_EQ(unit.getHitPoints(), 70u);
 }
 
 // 自己回復する
@@ -170,8 +170,8 @@ TEST(DiamondTrapTest, BeRepaired) {
     //    " "and 49 energy points.\n";
 
     ASSERT_EQ(getStdout([&]() { unit.beRepaired(repairAmount); }), expectedOutput);
-    ASSERT_EQ(unit.getHitPoints(), 70);
-    ASSERT_EQ(unit.getEnergyPoints(), 49); // Energy points should decrease (ClapTrap)
+    ASSERT_EQ(unit.getHitPoints(), 70u);
+    ASSERT_EQ(unit.getEnergyPoints(), 49u); // Energy points should decrease (ClapTrap)
 }
 
 // 自分（派生オブジェクトDiamondTrap）と継承元（サブオブジェクトClapTrap）の名前
