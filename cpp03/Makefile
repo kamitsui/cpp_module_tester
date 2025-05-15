@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/05/12 14:19:46 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/05/13 12:31:27 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ CF_DEP = -MMD -MP -MF $(@:$(OBJ_DIR)/%.o=$(DEP_DIR)/%.d)
 TARGET_EX00 = ex00_app
 TARGET_EX01 = ex01_app
 TARGET_EX02 = ex02_app
-ALL = $(TARGET_EX00) $(TARGET_EX01) $(TARGET_EX02)
+TARGET_EX03 = ex03_app
+ALL = $(TARGET_EX00) $(TARGET_EX01) $(TARGET_EX02) $(TARGET_EX03)
 
 # Definitions for building ex00 test program.
 ifeq ($(MAKECMDGOALS),ex00)
@@ -74,6 +75,21 @@ LIBS = -L/usr/lib -lgtest -lgtest_main
 NAME = $(TARGET_EX02)
 endif
 
+# Definitions for building ex03 test program.
+ifeq ($(MAKECMDGOALS),ex03)
+PRJ_DIR = $(PRJ_ROOT)/ex03
+OBJ_DIR = objs/ex03
+DEP_DIR = .deps/ex03
+SRCS = ClapTrap.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp test_ex03.cpp
+# My environ (Ubuntu22.04)
+CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
+LIBS = -L/usr/lib -lgtest -lgtest_main
+# 42 tokyo campas PC
+#CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
+#LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
+NAME = $(TARGET_EX03)
+endif
+
 # Selected Target Project Directory
 SRCS_DIR = $(PRJ_DIR)
 INC_DIR += $(PRJ_DIR)
@@ -100,6 +116,7 @@ all:
 	make ex00
 	make ex01
 	make ex02
+	make ex03
 .PHONY: all
 
 # Build Target
@@ -137,6 +154,12 @@ ex02: $(NAME)
 	@echo "Building ex02 application"
 	$(call ASCII_ART,$(NAME))
 .PHONY: ex02
+
+# Rule for ex03 target
+ex03: $(NAME)
+	@echo "Building ex03 application"
+	$(call ASCII_ART,$(NAME))
+.PHONY: ex03
 
 # ASCII Art : Display Tips the way to use.
 define ASCII_ART
