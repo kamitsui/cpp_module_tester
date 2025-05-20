@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/05/20 22:15:42 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/05/20 23:48:05 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,7 @@ ALL = $(TARGET_EX00) #$(TARGET_EX01) $(TARGET_EX02) $(TARGET_EX03)
 
 # Definitions for building ex00 test program.
 ifeq ($(MAKECMDGOALS),ex00)
-PRJ_DIR = $(PRJ_ROOT)/ex00
-OBJ_DIR = objs/ex00
-DEP_DIR = .deps/ex00
+EX_NUM = ex00
 SRCS = Animal.cpp Cat.cpp Dog.cpp WrongAnimal.cpp WrongCat.cpp \
 	   AnimalTests.cpp CatTests.cpp DogTests.cpp \
 	   WrongAnimalTests.cpp WrongCatTests.cpp \
@@ -46,13 +44,12 @@ LIBS = -L/usr/lib -lgtest -lgtest_main
 #CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
 #LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
 NAME = $(TARGET_EX00)
+# vpath for serching source files in multiple directories
 endif
 
 # Definitions for building ex01 test program.
 ifeq ($(MAKECMDGOALS),ex01)
-PRJ_DIR = $(PRJ_ROOT)/ex01
-OBJ_DIR = objs/ex01
-DEP_DIR = .deps/ex01
+EX_NUM = ex01
 SRCS = ClapTrap.cpp ScavTrap.cpp test_ex01.cpp
 # My environ (Ubuntu22.04)
 CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
@@ -65,9 +62,7 @@ endif
 
 # Definitions for building ex02 test program.
 ifeq ($(MAKECMDGOALS),ex02)
-PRJ_DIR = $(PRJ_ROOT)/ex02
-OBJ_DIR = objs/ex02
-DEP_DIR = .deps/ex02
+EX_NUM = ex02
 SRCS = ClapTrap.cpp ScavTrap.cpp FragTrap.cpp test_ex02.cpp
 # My environ (Ubuntu22.04)
 CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
@@ -80,9 +75,7 @@ endif
 
 # Definitions for building ex03 test program.
 ifeq ($(MAKECMDGOALS),ex03)
-PRJ_DIR = $(PRJ_ROOT)/ex03
-OBJ_DIR = objs/ex03
-DEP_DIR = .deps/ex03
+EX_NUM = ex02
 SRCS = ClapTrap.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp test_ex03.cpp
 # My environ (Ubuntu22.04)
 CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
@@ -94,8 +87,11 @@ NAME = $(TARGET_EX03)
 endif
 
 # Selected Target Project Directory
-SRCS_DIR = $(PRJ_DIR)
+PRJ_DIR = $(PRJ_ROOT)/$(EX_NUM)
+SRCS_DIR = ./ $(EX_NUM) $(PRJ_DIR)
 INC_DIR += $(PRJ_DIR)
+OBJ_DIR = objs/$(EX_NUM)
+DEP_DIR = .deps/$(EX_NUM)
 
 # vpath for serching source files in multiple directories
 vpath %.cpp $(SRCS_DIR)
