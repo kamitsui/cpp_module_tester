@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/05/20 23:48:05 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/05/21 22:19:35 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,13 +22,20 @@ DEP_DIR = .deps
 # Compiler
 CXX = c++
 CF_DEP = -MMD -MP -MF $(@:$(OBJ_DIR)/%.o=$(DEP_DIR)/%.d)
+# Google Test Path
+# My environ (Ubuntu22.04)
+CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
+LIBS = -L/usr/lib -lgtest -lgtest_main
+# 42 tokyo campas PC
+#CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
+#LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
 
 # ALL Targets
 TARGET_EX00 = ex00_app
 TARGET_EX01 = ex01_app
 TARGET_EX02 = ex02_app
 TARGET_EX03 = ex03_app
-ALL = $(TARGET_EX00) #$(TARGET_EX01) $(TARGET_EX02) $(TARGET_EX03)
+ALL = $(TARGET_EX00) $(TARGET_EX01) #$(TARGET_EX02) $(TARGET_EX03)
 
 # Definitions for building ex00 test program.
 ifeq ($(MAKECMDGOALS),ex00)
@@ -36,53 +43,34 @@ EX_NUM = ex00
 SRCS = Animal.cpp Cat.cpp Dog.cpp WrongAnimal.cpp WrongCat.cpp \
 	   AnimalTests.cpp CatTests.cpp DogTests.cpp \
 	   WrongAnimalTests.cpp WrongCatTests.cpp \
-	   test_ex00.cpp
-# My environ (Ubuntu22.04)
-CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
-LIBS = -L/usr/lib -lgtest -lgtest_main
-# 42 tokyo campas PC
-#CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
-#LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
+	   main.cpp
 NAME = $(TARGET_EX00)
-# vpath for serching source files in multiple directories
 endif
 
 # Definitions for building ex01 test program.
 ifeq ($(MAKECMDGOALS),ex01)
 EX_NUM = ex01
-SRCS = ClapTrap.cpp ScavTrap.cpp test_ex01.cpp
-# My environ (Ubuntu22.04)
-CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
-LIBS = -L/usr/lib -lgtest -lgtest_main
-# 42 tokyo campas PC
-#CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
-#LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
+SRCS = Animal.cpp Cat.cpp Dog.cpp WrongAnimal.cpp WrongCat.cpp Brain.cpp \
+	   BrainTests.cpp CatTests.cpp DogTests.cpp \
+	   main.cpp
 NAME = $(TARGET_EX01)
 endif
 
 # Definitions for building ex02 test program.
 ifeq ($(MAKECMDGOALS),ex02)
 EX_NUM = ex02
-SRCS = ClapTrap.cpp ScavTrap.cpp FragTrap.cpp test_ex02.cpp
-# My environ (Ubuntu22.04)
-CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
-LIBS = -L/usr/lib -lgtest -lgtest_main
-# 42 tokyo campas PC
-#CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
-#LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
+SRCS = Animal.cpp Cat.cpp Dog.cpp WrongAnimal.cpp WrongCat.cpp Brain.cpp \
+	   BrainTests.cpp CatTests.cpp DogTests.cpp \
+	   main.cpp
 NAME = $(TARGET_EX02)
 endif
 
 # Definitions for building ex03 test program.
 ifeq ($(MAKECMDGOALS),ex03)
-EX_NUM = ex02
-SRCS = ClapTrap.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp test_ex03.cpp
-# My environ (Ubuntu22.04)
-CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
-LIBS = -L/usr/lib -lgtest -lgtest_main
-# 42 tokyo campas PC
-#CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
-#LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
+EX_NUM = ex03
+SRCS = Animal.cpp Cat.cpp Dog.cpp WrongAnimal.cpp WrongCat.cpp Brain.cpp \
+	   BrainTests.cpp CatTests.cpp DogTests.cpp \
+	   main.cpp
 NAME = $(TARGET_EX03)
 endif
 
@@ -116,8 +104,8 @@ $(DEP_DIR)/%.d: %.cpp
 # Default target
 all:
 	make ex00
+	make ex01
 .PHONY: all
-#	make ex01
 #	make ex02
 #	make ex03
 
