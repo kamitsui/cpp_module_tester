@@ -6,11 +6,11 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/05/21 22:19:35 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/05/29 19:15:15 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# @file cpp03/Makefile
+# @file cpp04/Makefile
 # @brief This File is a Makefile for building of Tester Fixed class in ../../cpp03 directory.
 
 # Directories
@@ -35,7 +35,7 @@ TARGET_EX00 = ex00_app
 TARGET_EX01 = ex01_app
 TARGET_EX02 = ex02_app
 TARGET_EX03 = ex03_app
-ALL = $(TARGET_EX00) $(TARGET_EX01) #$(TARGET_EX02) $(TARGET_EX03)
+ALL = $(TARGET_EX00) $(TARGET_EX01) $(TARGET_EX02) #$(TARGET_EX03)
 
 # Definitions for building ex00 test program.
 ifeq ($(MAKECMDGOALS),ex00)
@@ -60,7 +60,7 @@ endif
 ifeq ($(MAKECMDGOALS),ex02)
 EX_NUM = ex02
 SRCS = Animal.cpp Cat.cpp Dog.cpp WrongAnimal.cpp WrongCat.cpp Brain.cpp \
-	   BrainTests.cpp CatTests.cpp DogTests.cpp \
+	   AnimalAbstractTests.cpp \
 	   main.cpp
 NAME = $(TARGET_EX02)
 endif
