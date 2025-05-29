@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/05/29 19:15:15 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/05/29 22:29:42 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ TARGET_EX00 = ex00_app
 TARGET_EX01 = ex01_app
 TARGET_EX02 = ex02_app
 TARGET_EX03 = ex03_app
-ALL = $(TARGET_EX00) $(TARGET_EX01) $(TARGET_EX02) #$(TARGET_EX03)
+ALL = $(TARGET_EX00) $(TARGET_EX01) $(TARGET_EX02) $(TARGET_EX03)
 
 # Definitions for building ex00 test program.
 ifeq ($(MAKECMDGOALS),ex00)
@@ -68,8 +68,17 @@ endif
 # Definitions for building ex03 test program.
 ifeq ($(MAKECMDGOALS),ex03)
 EX_NUM = ex03
-SRCS = Animal.cpp Cat.cpp Dog.cpp WrongAnimal.cpp WrongCat.cpp Brain.cpp \
-	   BrainTests.cpp CatTests.cpp DogTests.cpp \
+SRCS = \
+	   AMateria.cpp \
+	   Ice.cpp \
+	   Cure.cpp \
+	   Character.cpp \
+	   MateriaSource.cpp \
+	   \
+	   AMateriaTests.cpp \
+	   CharacterTests.cpp \
+	   IceCureMateriaTests.cpp \
+	   MateriaSourceTests.cpp \
 	   main.cpp
 NAME = $(TARGET_EX03)
 endif
@@ -105,9 +114,9 @@ $(DEP_DIR)/%.d: %.cpp
 all:
 	make ex00
 	make ex01
+	make ex02
+	make ex03
 .PHONY: all
-#	make ex02
-#	make ex03
 
 # Build Target
 $(NAME): $(OBJS)
@@ -129,26 +138,30 @@ re: fclean all
 
 # Rule for ex01 target
 ex00: $(NAME)
-	@echo "Building ex00 application"
+	@echo "Build" "'$(TARGET_EX00)'" "Complete!"
 	$(call ASCII_ART,$(NAME))
+	$(call ASK_AND_EXECUTE_ON_YES, ./$(NAME))
 .PHONY: ex00
 
 # Rule for ex01 target
 ex01: $(NAME)
-	@echo "Building ex01 application"
+	@echo "Build" "'$(TARGET_EX01)'" "Complete!"
 	$(call ASCII_ART,$(NAME))
+	$(call ASK_AND_EXECUTE_ON_YES, ./$(NAME))
 .PHONY: ex01
 
 # Rule for ex02 target
 ex02: $(NAME)
-	@echo "Building ex02 application"
+	@echo "Build" "'$(TARGET_EX02)'" "Complete!"
 	$(call ASCII_ART,$(NAME))
+	$(call ASK_AND_EXECUTE_ON_YES, ./$(NAME))
 .PHONY: ex02
 
 # Rule for ex03 target
 ex03: $(NAME)
-	@echo "Building ex03 application"
+	@echo "Build" "'$(TARGET_EX03)'" "Complete!"
 	$(call ASCII_ART,$(NAME))
+	$(call ASK_AND_EXECUTE_ON_YES, ./$(NAME))
 .PHONY: ex03
 
 # ASCII Art : Display Tips the way to use.
@@ -162,6 +175,21 @@ define ASCII_ART
 	@echo "           (__)\       )\\/\\"
 	@echo "               ||----w |"
 	@echo "               ||     ||\n"
+endef
+
+# Ask and Exit on No
+define ASK_AND_EXECUTE_ON_YES
+	@echo "Execute? $(1) (y/n)"
+	@read -r answer; \
+	case "$$answer" in \
+		[yY]) \
+			echo $(1); \
+			$(1); \
+			;; \
+		*) \
+			echo "Skip ..."; \
+			;; \
+	esac
 endef
 
 # Makefile Option : Disable '--print-directory'
