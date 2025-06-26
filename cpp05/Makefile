@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/06/26 09:13:00 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/06/26 10:29:58 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,9 +47,8 @@ endif
 # Definitions for building ex01 test program.
 ifeq ($(MAKECMDGOALS),ex01)
 EX_NUM = ex01
-SRCS = Animal.cpp Cat.cpp Dog.cpp WrongAnimal.cpp WrongCat.cpp Brain.cpp \
-	   BrainTests.cpp CatTests.cpp DogTests.cpp \
-	   main.cpp
+SRCS = Bureaucrat.cpp Form.cpp main.cpp \
+	   FormBureaucratTest.cpp 
 NAME = $(TARGET_EX01)
 endif
 
@@ -133,7 +132,7 @@ fclean: clean
 re: fclean all
 .PHONY: re
 
-# Rule for ex01 target
+# Rule for ex00 target
 ex00: $(NAME)
 	@echo "Build" "'$(TARGET_EX00)'" "Complete!"
 	$(call ASCII_ART,$(NAME))
