@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/06/26 10:29:58 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/06/29 04:56:27 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,9 +55,12 @@ endif
 # Definitions for building ex02 test program.
 ifeq ($(MAKECMDGOALS),ex02)
 EX_NUM = ex02
-SRCS = Animal.cpp Cat.cpp Dog.cpp WrongAnimal.cpp WrongCat.cpp Brain.cpp \
-	   AnimalAbstractTests.cpp \
+SRCS = \
+	   Bureaucrat.cpp AForm.cpp \
+	   ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp \
+	   AFormBureaucratTests.cpp \
 	   main.cpp
+
 NAME = $(TARGET_EX02)
 endif
 
@@ -65,16 +68,9 @@ endif
 ifeq ($(MAKECMDGOALS),ex03)
 EX_NUM = ex03
 SRCS = \
-	   AMateria.cpp \
-	   Ice.cpp \
-	   Cure.cpp \
-	   Character.cpp \
-	   MateriaSource.cpp \
-	   \
-	   AMateriaTests.cpp \
-	   CharacterTests.cpp \
-	   IceCureMateriaTests.cpp \
-	   MateriaSourceTests.cpp \
+	   Bureaucrat.cpp AForm.cpp Intern.cpp \
+	   ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp \
+	   InternTests.cpp \
 	   main.cpp
 NAME = $(TARGET_EX03)
 endif
