@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/05/06 14:10:09 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/07/20 20:47:40 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,19 @@ DEP_DIR = .deps
 CXX = c++
 CF_DEP = -MMD -MP -MF $(@:$(OBJ_DIR)/%.o=$(DEP_DIR)/%.d)
 
+# Google Test Path without .env file.
+# 42 tokyo campas PC : no define this variable in .env file.
+CXXFLAGS ?= -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
+LIBS ?= -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
+
+# Google Test Path with .env. ( My environment is Ubuntu22.04 )
+#CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
+#LIBS = -L/usr/lib -lgtest -lgtest_main
+
+# if existing .env file, read variable.
+# '-' initial hyphen is no error if '.env' is no existing.
+-include .env
+
 # ALL Targets
 TARGET_EX01 = ex01_app
 TARGET_EX02 = ex02_app
@@ -33,7 +46,6 @@ ifeq ($(MAKECMDGOALS),ex01)
 PRJ_DIR = $(PRJ_ROOT)/ex01
 OBJ_DIR = objs/ex01
 DEP_DIR = .deps/ex01
-CXXFLAGS += -Wall -Wextra -Werror -std=c++11
 SRCS = Fixed.cpp test_ex01.cpp
 NAME = $(TARGET_EX01)
 endif
@@ -43,11 +55,7 @@ ifeq ($(MAKECMDGOALS),ex02)
 PRJ_DIR = $(PRJ_ROOT)/ex02
 OBJ_DIR = objs/ex02
 DEP_DIR = .deps/ex02
-#CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
-CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
 SRCS = Fixed.cpp test_ex02.cpp
-#LIBS = -L/usr/lib -lgtest -lgtest_main
-LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
 NAME = $(TARGET_EX02)
 endif
 

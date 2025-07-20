@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/05/15 14:40:47 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/07/20 20:45:06 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,14 @@ DEP_DIR = .deps
 CXX = c++
 CF_DEP = -MMD -MP -MF $(@:$(OBJ_DIR)/%.o=$(DEP_DIR)/%.d)
 
+# Google Test Path
+# My environ (Ubuntu22.04)
+#CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
+#LIBS = -L/usr/lib -lgtest -lgtest_main
+# 42 tokyo campas PC
+CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
+LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
+
 # ALL Targets
 TARGET_EX00 = ex00_app
 TARGET_EX01 = ex01_app
@@ -36,12 +44,6 @@ PRJ_DIR = $(PRJ_ROOT)/ex00
 OBJ_DIR = objs/ex00
 DEP_DIR = .deps/ex00
 SRCS = ClapTrap.cpp test_ex00.cpp
-# My environ (Ubuntu22.04)
-#CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
-#LIBS = -L/usr/lib -lgtest -lgtest_main
-# 42 tokyo campas PC
-CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
-LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
 NAME = $(TARGET_EX00)
 endif
 
@@ -51,12 +53,6 @@ PRJ_DIR = $(PRJ_ROOT)/ex01
 OBJ_DIR = objs/ex01
 DEP_DIR = .deps/ex01
 SRCS = ClapTrap.cpp ScavTrap.cpp test_ex01.cpp
-# My environ (Ubuntu22.04)
-#CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
-#LIBS = -L/usr/lib -lgtest -lgtest_main
-# 42 tokyo campas PC
-CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
-LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
 NAME = $(TARGET_EX01)
 endif
 
@@ -66,12 +62,6 @@ PRJ_DIR = $(PRJ_ROOT)/ex02
 OBJ_DIR = objs/ex02
 DEP_DIR = .deps/ex02
 SRCS = ClapTrap.cpp ScavTrap.cpp FragTrap.cpp test_ex02.cpp
-# My environ (Ubuntu22.04)
-# CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
-# LIBS = -L/usr/lib -lgtest -lgtest_main
-# 42 tokyo campas PC
-CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
-LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
 NAME = $(TARGET_EX02)
 endif
 
@@ -81,12 +71,6 @@ PRJ_DIR = $(PRJ_ROOT)/ex03
 OBJ_DIR = objs/ex03
 DEP_DIR = .deps/ex03
 SRCS = ClapTrap.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp test_ex03.cpp
-# My environ (Ubuntu22.04)
-#CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
-#LIBS = -L/usr/lib -lgtest -lgtest_main
-# 42 tokyo campas PC
-CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
-LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
 NAME = $(TARGET_EX03)
 endif
 

@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/06/06 13:02:46 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/07/20 20:43:10 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,13 +22,19 @@ DEP_DIR = .deps
 # Compiler
 CXX = c++
 CF_DEP = -MMD -MP -MF $(@:$(OBJ_DIR)/%.o=$(DEP_DIR)/%.d)
-# Google Test Path
-# My environ (Ubuntu22.04)
+
+# Google Test Path without .env file.
+# 42 tokyo campas PC : no define this variable in .env file.
+CXXFLAGS ?= -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
+LIBS ?= -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
+
+# Google Test Path with .env. ( My environment is Ubuntu22.04 )
 #CXXFLAGS = -Wall -Wextra -Werror -std=c++14 -I/usr/include -pthread
 #LIBS = -L/usr/lib -lgtest -lgtest_main
-# 42 tokyo campas PC
-CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -I$(HOME)/goinfre/.brew/include -pthread
-LIBS = -L$(HOME)/goinfre/.brew/lib -lgtest -lgtest_main
+
+# if existing .env file, read variable.
+# '-' initial hyphen is no error if '.env' is no existing.
+-include .env
 
 # ALL Targets
 TARGET_EX00 = ex00_app
