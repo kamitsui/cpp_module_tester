@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/06/29 04:56:27 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/07/18 19:06:28 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ TARGET_EX00 = ex00_app
 TARGET_EX01 = ex01_app
 TARGET_EX02 = ex02_app
 TARGET_EX03 = ex03_app
+TARGET_EX03_ALLOC = ex03_app_alloc
 ALL = $(TARGET_EX00) $(TARGET_EX01) $(TARGET_EX02) $(TARGET_EX03)
 
 # Definitions for building ex00 test program.
@@ -70,15 +71,24 @@ EX_NUM = ex03
 SRCS = \
 	   Bureaucrat.cpp AForm.cpp Intern.cpp \
 	   ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp \
-	   InternTests.cpp \
+	   InternTests.cpp intern_di_test.cpp ControllableFailingFactory.cpp \
 	   main.cpp
 NAME = $(TARGET_EX03)
+endif
+
+# Definitions for building ex03_alloc test program ( with using CustomAllocator.hpp ).
+ifeq ($(MAKECMDGOALS),ex03_alloc)
+EX_NUM = ex03
+APP_SRCS = Bureaucrat.cpp AForm.cpp Intern.cpp \
+		   ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp
+TEST_SRCS = InternAllocTest.cpp main.cpp
+NAME = $(TARGET_EX03_ALLOC)
 endif
 
 # Selected Target Project Directory
 PRJ_DIR = $(PRJ_ROOT)/$(EX_NUM)
 SRCS_DIR = ./ $(EX_NUM) $(PRJ_DIR)
-INC_DIR += $(PRJ_DIR)
+CF_INC = -I$(PRJ_DIR) -I$(EX_NUM)
 OBJ_DIR = objs/$(EX_NUM)
 DEP_DIR = .deps/$(EX_NUM)
 
@@ -86,6 +96,8 @@ DEP_DIR = .deps/$(EX_NUM)
 vpath %.cpp $(SRCS_DIR)
 
 # Object files and dependency files
+APP_OBJS = $(addprefix $(OBJ_DIR)/, $(APP_SRCS:.cpp=.o))
+TEST_OBJS = $(addprefix $(OBJ_DIR)/, $(TEST_SRCS:.cpp=.o))
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.cpp=.o))
 DEPS = $(addprefix $(DEP_DIR)/, $(SRCS:.cpp=.d))
 
@@ -93,7 +105,7 @@ DEPS = $(addprefix $(DEP_DIR)/, $(SRCS:.cpp=.d))
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(DEP_DIR)
-	$(CXX) $(CXXFLAGS) -I$(INC_DIR) $(CF_DEP) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(CF_INC) $(CF_DEP) -c $< -o $@
 
 # Rules for building dependency files
 $(DEP_DIR)/%.d: %.cpp
@@ -108,11 +120,14 @@ all:
 	make ex01
 	make ex02
 	make ex03
+	#make ex03_alloc
 .PHONY: all
 
 # Build Target
 $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) $(LIBS) -o $(NAME)
+#$(NAME): $(APP_OBJS) $(TEST_OBJS)
+#	$(CXX) $(CXXFLAGS) $(APP_OBJS) $(TEST_OBJS) $(LIBS) -o $(NAME)
 
 # Rule for removing object & dependency files
 clean:
@@ -152,6 +167,13 @@ ex02: $(NAME)
 # Rule for ex03 target
 ex03: $(NAME)
 	@echo "Build" "'$(TARGET_EX03)'" "Complete!"
+	$(call ASCII_ART,$(NAME))
+	$(call ASK_AND_EXECUTE_ON_YES, ./$(NAME))
+.PHONY: ex03
+
+# Rule for ex03 target
+ex03_alloc: $(NAME)
+	@echo "Build" "'$(TARGET_EX03_ALLOC)'" "Complete!"
 	$(call ASCII_ART,$(NAME))
 	$(call ASK_AND_EXECUTE_ON_YES, ./$(NAME))
 .PHONY: ex03
