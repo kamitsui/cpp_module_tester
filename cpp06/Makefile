@@ -6,12 +6,11 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/07/25 01:29:53 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/07/25 04:28:15 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# @file cpp05/Makefile
-# @brief This File is a Makefile for building of Tester Fixed class in ../../cpp03 directory.
+# @file cpp06/Makefile
 
 # Directories
 PRJ_ROOT = ../../cpp06
@@ -52,8 +51,8 @@ endif
 # Definitions for building ex01 test program.
 ifeq ($(MAKECMDGOALS),ex01)
 EX_NUM = ex01
-SRCS = Bureaucrat.cpp Form.cpp main.cpp \
-	   FormBureaucratTest.cpp 
+SRCS = Serializer.cpp main.cpp \
+	   test_serializer.cpp 
 NAME = $(TARGET_EX01)
 endif
 
@@ -61,10 +60,8 @@ endif
 ifeq ($(MAKECMDGOALS),ex02)
 EX_NUM = ex02
 SRCS = \
-	   Bureaucrat.cpp AForm.cpp \
-	   ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp \
-	   AFormBureaucratTests.cpp \
-	   main.cpp
+	   Base.cpp main.cpp \
+	   test_identify.cpp
 NAME = $(TARGET_EX02)
 endif
 
