@@ -1,5 +1,6 @@
 #include "ScalarConverter.hpp"
 #include "gtest/gtest.h"
+#include <climits>
 #include <iostream>
 #include <sstream>
 
@@ -66,7 +67,11 @@ TEST_F(ScalarConverterTest, ValidFloat) {
 
 TEST_F(ScalarConverterTest, ValidDouble) {
     ScalarConverter::convert("-123.456");
+#if CHAR_MIN < 0
+    std::string expected = "char: Non displayable\nint: -123\nfloat: -123.456f\ndouble: -123.456\n";
+#else
     std::string expected = "char: impossible\nint: -123\nfloat: -123.456f\ndouble: -123.456\n";
+#endif
     ASSERT_EQ(getOutput(), expected);
 }
 
@@ -84,7 +89,11 @@ TEST_F(ScalarConverterTest, NonDisplayableChar) {
 
 TEST_F(ScalarConverterTest, ImpossibleChar) {
     ScalarConverter::convert("200");
+#if CHAR_MAX > 127
     std::string expected = "char: Non displayable\nint: 200\nfloat: 200.0f\ndouble: 200.0\n";
+#else
+    std::string expected = "char: impossible\nint: 200\nfloat: 200.0f\ndouble: 200.0\n";
+#endif
     ASSERT_EQ(getOutput(), expected);
 }
 
