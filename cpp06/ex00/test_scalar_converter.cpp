@@ -43,8 +43,19 @@ TEST_F(ScalarConverterTest, ValidIntZero) {
 
 TEST_F(ScalarConverterTest, ValidIntNegative) {
     ScalarConverter::convert("-42");
+#if CHAR_MIN < 0
+    // This preprocessor directive checks if char is signed
+    // On systems where char is signed (-128 to 127),
+    // -42 is a valid, but non-printable character.
+    std::string expected = "char: Non displayable\nint: -42\nfloat: -42.0f\ndouble: -42.0\n";
+#else
+    // On systems where char is unsigned (0 to 255),
+    // -42 is outside the range.
     std::string expected = "char: impossible\nint: -42\nfloat: -42.0f\ndouble: -42.0\n";
+#endif
     ASSERT_EQ(getOutput(), expected);
+    ScalarConverter::convert("-42");
+    getOutput();
 }
 
 TEST_F(ScalarConverterTest, ValidFloat) {
