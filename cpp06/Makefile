@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/08/16 09:17:44 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/08/16 18:48:47 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -120,7 +120,7 @@ re: fclean all
 .PHONY: re
 
 # Rule for ex00 target
-ADDITIONAL_TEST = make -f TestEx00Makefile
+ADDITIONAL_TEST = make -f AdditionalTestEx00.mk
 ex00: $(NAME)
 	@echo "Build" "'$(TARGET_EX00)'" "Complete!"
 	$(call ASCII_ART,$(NAME))
