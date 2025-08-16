@@ -4,6 +4,7 @@
 # Whitelist important files
 !*.py
 !Makefile
+!*.mk
 !*.c
 !*.h
 !*.cpp
