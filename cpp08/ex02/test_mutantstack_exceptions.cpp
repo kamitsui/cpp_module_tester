@@ -30,7 +30,7 @@ TEST(MutantStackExceptionTest, CorrectUsageDoesNotCauseError) {
     // アクセスする前に、必ずスタックが空でないことを確認します。
     ASSERT_NO_THROW({
         if (!mstack.empty()) {
-            mstack.top();
+            (void)mstack.top();
         }
     });
     ASSERT_NO_THROW({

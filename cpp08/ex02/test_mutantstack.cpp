@@ -12,7 +12,7 @@ TEST(StackFunctionalityTest, PushAndTop) {
     EXPECT_EQ(mstack.top(), 1);
     mstack.push(2);
     EXPECT_EQ(mstack.top(), 2);
-    EXPECT_EQ(mstack.size(), 2);
+    EXPECT_EQ(mstack.size(), 2ul);
 }
 
 TEST(StackFunctionalityTest, Pop) {
@@ -21,19 +21,19 @@ TEST(StackFunctionalityTest, Pop) {
     mstack.push(2);
     mstack.pop();
     EXPECT_EQ(mstack.top(), 1);
-    EXPECT_EQ(mstack.size(), 1);
+    EXPECT_EQ(mstack.size(), 1ul);
 }
 
 TEST(StackFunctionalityTest, EmptyAndSize) {
     MutantStack<int> mstack;
     EXPECT_TRUE(mstack.empty());
-    EXPECT_EQ(mstack.size(), 0);
+    EXPECT_EQ(mstack.size(), 0ul);
     mstack.push(42);
     EXPECT_FALSE(mstack.empty());
-    EXPECT_EQ(mstack.size(), 1);
+    EXPECT_EQ(mstack.size(), 1ul);
     mstack.pop();
     EXPECT_TRUE(mstack.empty());
-    EXPECT_EQ(mstack.size(), 0);
+    EXPECT_EQ(mstack.size(), 0ul);
 }
 
 // --- 2. IteratorTest ---
