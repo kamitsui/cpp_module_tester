@@ -1,0 +1,4 @@
+Error: not a positive number.
+Error: bad input => 2001-42-42
+Error: too large a number.
+Error: bad input => bad | format
