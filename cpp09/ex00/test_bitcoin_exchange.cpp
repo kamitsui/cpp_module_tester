@@ -166,7 +166,7 @@ TEST_F(BitcoinExchangeTest, ProcessInvalidInputs) {
 
     std::string expected_error = "Error: not a positive number.\n"
                                  "Error: too large a number.\n"
-                                 "Error: bad input => 2022-99-99\n"
+                                 "Error: bad input => 2022-99-99 | 10\n"
                                  "Error: bad input => bad line format\n";
 
     EXPECT_EQ(error_output, expected_error);

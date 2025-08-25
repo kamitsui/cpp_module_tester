@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/08/25 18:33:31 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/08/26 01:12:59 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,6 +121,12 @@ ex00: $(NAME)
 	@echo "Build" "'$(TARGET_EX00)'" "Complete!"
 	$(call ASCII_ART,$(NAME))
 	$(call ASK_AND_EXECUTE_ON_YES, ./$(NAME))
+
+	$(call CONTINUE_NEXT, --- Running Integration Tests ---)
+	@cd ${CURDIR}/ex00_integration && ./test_runner.sh
+
+	$(call CONTINUE_NEXT, --- Running Performance Tests ---)
+	@cd ${CURDIR}/ex00_performance && ./performance_test.sh
 .PHONY: ex00
 
 # Rule for ex01 target
@@ -163,6 +169,11 @@ define ASK_AND_EXECUTE_ON_YES
 			echo "Skip ..."; \
 			;; \
 	esac
+endef
+
+define CONTINUE_NEXT
+	@echo "Continue Enter $(1)"
+	@read -r answer
 endef
 
 # Makefile Option : Disable '--print-directory'
