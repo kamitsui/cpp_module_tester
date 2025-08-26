@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/08/26 01:12:59 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/08/26 18:02:21 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ endif
 # Definitions for building ex01 test program.
 ifeq ($(MAKECMDGOALS),ex01)
 EX_NUM = ex01
-SRCS = test_span.cpp main.cpp Span.cpp
+SRCS = test_rpn.cpp main.cpp RPN.cpp
 NAME = $(TARGET_EX01)
 endif
 
@@ -134,6 +134,12 @@ ex01: $(NAME)
 	@echo "Build" "'$(TARGET_EX01)'" "Complete!"
 	$(call ASCII_ART,$(NAME))
 	$(call ASK_AND_EXECUTE_ON_YES, ./$(NAME))
+
+	$(call CONTINUE_NEXT, --- Running Integration Tests ---)
+	@cd ${CURDIR}/ex01_integration && ./test_runner.sh
+
+	$(call CONTINUE_NEXT, --- Running Performance Tests ---)
+	@cd ${CURDIR}/ex01_performance && ./performance_test.sh
 .PHONY: ex01
 
 # Rule for ex02 target

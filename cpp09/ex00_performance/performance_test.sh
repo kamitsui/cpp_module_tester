@@ -11,7 +11,8 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # --- Variables ---
-EXECUTABLE="./btc"
+PRJ_DIR="../../../cpp09/ex00"
+EXECUTABLE="./$PRJ_DIR/btc"
 DB_GENERATOR="./generate_db.sh"
 INPUT_FILE="input_perf.txt"
 DB_FILE="data.csv"
