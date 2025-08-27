@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/08/26 18:02:21 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/08/27 10:20:32 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ endif
 # Definitions for building ex02 test program.
 ifeq ($(MAKECMDGOALS),ex02)
 EX_NUM = ex02
-SRCS = test_mutantstack.cpp test_mutantstack_exceptions.cpp main.cpp
+SRCS = test_pmergeme.cpp main.cpp PmergeMe.cpp
 NAME = $(TARGET_EX02)
 endif
 
