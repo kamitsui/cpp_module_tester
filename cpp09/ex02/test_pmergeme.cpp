@@ -59,7 +59,7 @@ TEST_F(PmergeMeTest, VectorBoundaryCaseSingleElement) {
     std::vector<int> vec;
     vec.push_back(42);
     pmm.mergeInsertSort(vec);
-    ASSERT_EQ(vec.size(), 1);
+    ASSERT_EQ(vec.size(), 1ul);
     ASSERT_EQ(vec[0], 42);
 }
 
@@ -154,7 +154,7 @@ TEST_F(PmergeMeTest, DequeBoundaryCaseSingleElement) {
     std::deque<int> deq;
     deq.push_back(42);
     pmm.mergeInsertSort(deq);
-    ASSERT_EQ(deq.size(), 1);
+    ASSERT_EQ(deq.size(), 1ul);
     ASSERT_EQ(deq[0], 42);
 }
 

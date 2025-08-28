@@ -24,6 +24,9 @@
 !*.zsh
 !Dockerfile
 
+# cpp09/ex00 : BitcoinExchange data base
+!*.csv
+
 # Git
 !.gitignore
 !.gitattributes
