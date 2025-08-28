@@ -6,7 +6,7 @@
 #    By: kamitsui <kamitsui@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/15 19:38:29 by kamitsui          #+#    #+#              #
-#    Updated: 2025/08/27 10:20:32 by kamitsui         ###   ########.fr        #
+#    Updated: 2025/08/28 12:19:38 by kamitsui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -147,6 +147,12 @@ ex02: $(NAME)
 	@echo "Build" "'$(TARGET_EX02)'" "Complete!"
 	$(call ASCII_ART,$(NAME))
 	$(call ASK_AND_EXECUTE_ON_YES, ./$(NAME))
+
+	$(call CONTINUE_NEXT, --- Running Integration Tests ---)
+	@cd ${CURDIR}/ex02_integration && ./test_runner.sh
+
+	$(call CONTINUE_NEXT, --- Running Performance Tests ---)
+	@cd ${CURDIR}/ex02_performance && ./performance_test.sh
 .PHONY: ex02
 
 # ASCII Art : Display Tips the way to use.

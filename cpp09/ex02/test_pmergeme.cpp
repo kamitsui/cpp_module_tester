@@ -1,5 +1,5 @@
 #include "PmergeMe.hpp"
-#include "gtest/gtest.hh"
+#include "gtest/gtest.h"
 #include <algorithm> // for std::sort
 #include <deque>
 #include <vector>
@@ -91,6 +91,18 @@ TEST_F(PmergeMeTest, VectorEdgeCaseWithDuplicates) {
 
     std::vector<int> expected = vec;
     std::sort(expected.begin(), expected.end());
+
+    // std::cout << "vec: ";
+    // for (const auto &num : vec) {
+    //     std::cout << num << " ";
+    // }
+    // std::cout << std::endl;
+
+    // std::cout << "exp: ";
+    // for (const auto &num : expected) {
+    //     std::cout << num << " ";
+    // }
+    // std::cout << std::endl;
 
     pmm.mergeInsertSort(vec);
     ASSERT_EQ(vec, expected);

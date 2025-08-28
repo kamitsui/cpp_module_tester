@@ -63,16 +63,33 @@ run_test() {
         fi
     else
         # Static check against expected content
-        if ! echo "$EXPECTED_STDOUT_CONTENT" | diff -q - "$TMP_OUTPUT" > /dev/null; then
+        if ! echo -n "$EXPECTED_STDOUT_CONTENT" | diff -q - "$TMP_OUTPUT" > /dev/null; then
             PASS=false
         fi
     fi
 
+    #### debug ####
+    #echo "--- $PASS ---"
+    #echo "ex:"
+    #echo -n "$EXPECTED_STDOUT_CONTENT"
+    #echo "ac:"
+    #cat "$TMP_OUTPUT"
+    #echo "-------------"
+
     # Check stderr
-    if ! echo "$EXPECTED_STDERR_CONTENT" | diff -q - "$TMP_ERROR" > /dev/null; then
+    #if ! echo -n "$EXPECTED_STDERR_CONTENT" | diff -q - "$TMP_ERROR" > /dev/null; then
+    if ! printf "%b" "$EXPECTED_STDERR_CONTENT" | diff -q - "$TMP_ERROR" > /dev/null; then
          PASS=false
     fi
 
+    #### debug ####
+    #echo "--- $PASS ---"
+    #echo "ex:"
+    #printf "%b" "$EXPECTED_STDERR_CONTENT"
+    #echo "ac:"
+    #cat "$TMP_ERROR"
+    #echo "-------------"
+    #return 1
 
     # Print result
     if [ "$PASS" = true ]; then
@@ -112,23 +129,23 @@ run_test "Normal Case: Subject example" \
 run_test "Argument Error: No arguments" \
          "$EXECUTABLE" \
          "" \
-         "Error: No input sequence provided."
+         "Error: No input sequence provided.\n"
 
 # 3. Input Validation Errors
 run_test "Input Error: Negative number" \
          "$EXECUTABLE 5 -1 2" \
          "" \
-         "Error: Invalid input."
+         "Error: Invalid input.\n"
 
 run_test "Input Error: Non-numeric input" \
          "$EXECUTABLE 5 three 2" \
          "" \
-         "Error: Invalid input."
+         "Error: Invalid input.\n"
 
 run_test "Input Error: Zero (not a positive integer)" \
          "$EXECUTABLE 5 0 2" \
          "" \
-         "Error: Invalid input."
+         "Error: Invalid input.\n"
 
 # 4. Edge Cases
 run_test "Edge Case: Already sorted" \
